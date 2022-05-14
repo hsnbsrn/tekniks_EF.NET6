@@ -1,11 +1,15 @@
 using net6d1.Models;
 using Microsoft.EntityFrameworkCore;
+using net6d1.Model;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<teknikContext>(options=>
+options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
+builder.Services.AddDbContext<dContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

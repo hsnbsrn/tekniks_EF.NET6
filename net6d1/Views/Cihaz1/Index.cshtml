@@ -1,0 +1,95 @@
+﻿@model IEnumerable<net6d1.Model.Cihaz1>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AdSoyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Islem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetayIslem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Getirilen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vtarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Btarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Durum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cihaz)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdSoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Islem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetayIslem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Getirilen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vtarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Btarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Durum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cihaz)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
