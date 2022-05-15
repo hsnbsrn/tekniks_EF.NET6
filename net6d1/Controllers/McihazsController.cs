@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GSF.Net.Smtp;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using net6d1.Models;
 
 namespace net6d1.Controllers
@@ -85,12 +88,30 @@ namespace net6d1.Controllers
         [HttpPost]
         public async Task<ActionResult<Mcihaz>> PostMcihaz(Mcihaz mcihaz)
         {
-          if (_context.Mcihazs == null)
-          {
-              return Problem("Entity set 'teknikContext.Mcihazs'  is null.");
-          }
+                if (_context.Mcihazs == null)
+                {
+                    return Problem("Entity set 'teknikContext.Mcihazs'  is null.");
+                }
             _context.Mcihazs.Add(mcihaz);
             await _context.SaveChangesAsync();
+
+            string mail = mcihaz.Mail;
+            string adsoyad = mcihaz.AdSoyad;
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Deneme Deneme", "projedenemeapi@gmail.com"));
+            message.To.Add(new MailboxAddress(adsoyad, mail));
+            message.Subject = "Teknik Servis Bilgilendirme";
+            message.Body = new TextPart("plain")
+            {
+                Text = "Sayın " + adsoyad
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("projedenemeapi@gmail.com", "visualstudio");
+                client.Send(message);
+                client.Disconnect(true);
+            }
 
             return CreatedAtAction("GetMcihaz", new { id = mcihaz.Id }, mcihaz);
         }
