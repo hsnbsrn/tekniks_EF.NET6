@@ -12,6 +12,7 @@ namespace net6d1.Models
 
         public int Id { get; set; }
         public string? Ad { get; set; }
+        public int? Ucret { get; set; }
 
         public virtual ICollection<Mcihaz> Mcihazs { get; set; }
     }

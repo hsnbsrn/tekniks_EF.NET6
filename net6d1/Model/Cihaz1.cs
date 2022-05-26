@@ -21,5 +21,6 @@ namespace net6d1.Model
         public DateTime? Btarih { get; set; }
         public string Durum { get; set; }
         public string Cihaz { get; set; }
+        public int Ucret { get; set; }
     }
 }

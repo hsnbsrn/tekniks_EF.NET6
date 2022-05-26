@@ -17,6 +17,7 @@ namespace net6d1.Controllers
     public class McihazsController : ControllerBase
     {
         private readonly teknikContext _context;
+   
 
         public McihazsController(teknikContext context)
         {
@@ -57,11 +58,46 @@ namespace net6d1.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMcihaz(int id, Mcihaz mcihaz)
         {
+            string a = ""; 
             if (id != mcihaz.Id)
             {
                 return BadRequest();
             }
 
+            if (mcihaz.Durum == null) 
+            {
+                mcihaz.Durum = 1;
+            }
+
+            if (mcihaz.Durum==2)
+            {
+                a = " tamire";
+            }
+            else if (mcihaz.Durum == 3) 
+            {
+                a = " beklemeye";
+            }
+            else if (mcihaz.Durum == 1002)
+            {
+                a = "'ın tamiri bitmiştir teslim alabilirsiniz.";
+            }
+            //string mail = mcihaz.Mail;
+            //string adsoyad = mcihaz.AdSoyad;
+            //var message = new MimeMessage();
+            //message.From.Add(new MailboxAddress("Bilgilendirme", "projedenemeapi@gmail.com"));
+            //message.To.Add(new MailboxAddress(adsoyad, mail));
+            //message.Subject = "Teknik Servis Bilgilendirme";
+            //message.Body = new TextPart("plain")
+            //{
+            //    Text = "Sayın " + adsoyad + " cihazınız "+a+" alınmıştır."
+            //};
+            //using (var client = new SmtpClient())
+            //{
+            //    client.Connect("smtp.gmail.com", 587, false);
+            //    client.Authenticate("projedenemeapi@gmail.com", "visualstudio");
+            //    client.Send(message);
+            //    client.Disconnect(true);
+            //}
             _context.Entry(mcihaz).State = EntityState.Modified;
 
             try
@@ -88,30 +124,33 @@ namespace net6d1.Controllers
         [HttpPost]
         public async Task<ActionResult<Mcihaz>> PostMcihaz(Mcihaz mcihaz)
         {
+          
                 if (_context.Mcihazs == null)
                 {
                     return Problem("Entity set 'teknikContext.Mcihazs'  is null.");
                 }
+            mcihaz.Vtarih = DateTime.Now;
+            mcihaz.Durum = 1;
             _context.Mcihazs.Add(mcihaz);
             await _context.SaveChangesAsync();
 
-            string mail = mcihaz.Mail;
-            string adsoyad = mcihaz.AdSoyad;
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Deneme Deneme", "projedenemeapi@gmail.com"));
-            message.To.Add(new MailboxAddress(adsoyad, mail));
-            message.Subject = "Teknik Servis Bilgilendirme";
-            message.Body = new TextPart("plain")
-            {
-                Text = "Sayın " + adsoyad
-            };
-            using (var client = new SmtpClient())
-            {
-                client.Connect("smtp.gmail.com", 587, false);
-                client.Authenticate("projedenemeapi@gmail.com", "visualstudio");
-                client.Send(message);
-                client.Disconnect(true);
-            }
+            //string mail = mcihaz.Mail;
+            //string adsoyad = mcihaz.AdSoyad;
+            //var message = new MimeMessage();
+            //message.From.Add(new MailboxAddress("Deneme Deneme", "projedenemeapi@gmail.com"));
+            //message.To.Add(new MailboxAddress(adsoyad, mail));
+            //message.Subject = "Teknik Servis Bilgilendirme";
+            //message.Body = new TextPart("plain")
+            //{
+            //    Text = "Sayın " + adsoyad
+            //};
+            //using (var client = new SmtpClient())
+            //{
+            //    client.Connect("smtp.gmail.com", 587, false);
+            //    client.Authenticate("projedenemeapi@gmail.com", "visualstudio");
+            //    client.Send(message);
+            //    client.Disconnect(true);
+            //}
 
             return CreatedAtAction("GetMcihaz", new { id = mcihaz.Id }, mcihaz);
         }

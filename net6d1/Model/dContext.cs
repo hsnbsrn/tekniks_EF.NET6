@@ -61,6 +61,9 @@ namespace net6d1.Model
                 entity.Property(e => e.Vtarih)
                     .HasColumnType("datetime")
                     .HasColumnName("VTarih");
+
+                entity.Property(e => e.Ucret);
+
             });
 
             OnModelCreatingPartial(modelBuilder);
