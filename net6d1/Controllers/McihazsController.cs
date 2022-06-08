@@ -58,46 +58,45 @@ namespace net6d1.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMcihaz(int id, Mcihaz mcihaz)
         {
-            string a = ""; 
+            string a = "";
             if (id != mcihaz.Id)
             {
                 return BadRequest();
             }
 
-            if (mcihaz.Durum == null) 
+            if (mcihaz.Durum == null)
             {
                 mcihaz.Durum = 1;
             }
-
-            if (mcihaz.Durum==2)
+            if (mcihaz.Durum == 2)
             {
-                a = " tamire";
+                a = " tamire alınmıştır.";
             }
-            else if (mcihaz.Durum == 3) 
+            else if (mcihaz.Durum == 3)
             {
-                a = " beklemeye";
+                a = " beklemeye alınmıştır sizinle en kısa sürede iletişim kurulacaktır";
             }
             else if (mcihaz.Durum == 1002)
             {
                 a = "'ın tamiri bitmiştir teslim alabilirsiniz.";
             }
-            //string mail = mcihaz.Mail;
-            //string adsoyad = mcihaz.AdSoyad;
-            //var message = new MimeMessage();
-            //message.From.Add(new MailboxAddress("Bilgilendirme", "projedenemeapi@gmail.com"));
-            //message.To.Add(new MailboxAddress(adsoyad, mail));
-            //message.Subject = "Teknik Servis Bilgilendirme";
-            //message.Body = new TextPart("plain")
-            //{
-            //    Text = "Sayın " + adsoyad + " cihazınız "+a+" alınmıştır."
-            //};
-            //using (var client = new SmtpClient())
-            //{
-            //    client.Connect("smtp.gmail.com", 587, false);
-            //    client.Authenticate("projedenemeapi@gmail.com", "visualstudio");
-            //    client.Send(message);
-            //    client.Disconnect(true);
-            //}
+            string mail = mcihaz.Mail;
+            string adsoyad = mcihaz.AdSoyad;
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Bilgilendirme", "projedenemeapi@gmail.com"));
+            message.To.Add(new MailboxAddress(adsoyad, mail));
+            message.Subject = "Teknik Servis Bilgilendirme";
+            message.Body = new TextPart("plain")
+            {
+                Text = "Sayın " + adsoyad + " cihazınız " + a
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("projedenemeapi@gmail.com", "visualstudio");
+                client.Send(message);
+                client.Disconnect(true);
+            }
             _context.Entry(mcihaz).State = EntityState.Modified;
 
             try
@@ -134,23 +133,27 @@ namespace net6d1.Controllers
             _context.Mcihazs.Add(mcihaz);
             await _context.SaveChangesAsync();
 
-            //string mail = mcihaz.Mail;
-            //string adsoyad = mcihaz.AdSoyad;
-            //var message = new MimeMessage();
-            //message.From.Add(new MailboxAddress("Deneme Deneme", "projedenemeapi@gmail.com"));
-            //message.To.Add(new MailboxAddress(adsoyad, mail));
-            //message.Subject = "Teknik Servis Bilgilendirme";
-            //message.Body = new TextPart("plain")
-            //{
-            //    Text = "Sayın " + adsoyad
-            //};
-            //using (var client = new SmtpClient())
-            //{
-            //    client.Connect("smtp.gmail.com", 587, false);
-            //    client.Authenticate("projedenemeapi@gmail.com", "visualstudio");
-            //    client.Send(message);
-            //    client.Disconnect(true);
-            //}
+            string mail = mcihaz.Mail;
+            string adsoyad = mcihaz.AdSoyad;
+            string cihaz = mcihaz.Cihaz;
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Deneme Deneme", "projedenemeapi@gmail.com"));
+            message.To.Add(new MailboxAddress(adsoyad, mail));
+            message.Subject = "Teknik Servis Bilgilendirme";
+            message.Body = new TextPart("plain")
+            {
+                Text = "Sayın " + adsoyad + " cihazınız sıraya alınmıştır en kısa sürede işleme alınacaktır\n" +
+                "Cihaz: " + cihaz + "\n" +
+                "Getirilen: " + mcihaz.Getirilen + "\n" +
+                "İslem: " + mcihaz.DetayIslem + "\n"
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("projedenemeapi@gmail.com", "visualstudio");
+                client.Send(message);
+                client.Disconnect(true);
+            }
 
             return CreatedAtAction("GetMcihaz", new { id = mcihaz.Id }, mcihaz);
         }

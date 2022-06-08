@@ -2,13 +2,11 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace net6d1.Model
 {
     public partial class Cihaz1
     {
-        [Key]
         public int Id { get; set; }
         public string AdSoyad { get; set; }
         public string Islem { get; set; }
@@ -21,6 +19,6 @@ namespace net6d1.Model
         public DateTime? Btarih { get; set; }
         public string Durum { get; set; }
         public string Cihaz { get; set; }
-        public int Ucret { get; set; }
+        public int? Ucret { get; set; }
     }
 }

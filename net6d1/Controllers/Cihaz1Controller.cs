@@ -13,9 +13,9 @@ namespace net6d1.Controllers
     [ApiController]
     public class Cihaz1Controller : Controller
     {
-        private readonly dContext _context;
+        private readonly d1Context _context;
 
-        public Cihaz1Controller(dContext context)
+        public Cihaz1Controller(d1Context context)
         {
             _context = context;
         }
@@ -28,7 +28,7 @@ namespace net6d1.Controllers
             {
                 return NotFound();
             }
-            return await _context.Cihaz1s.ToListAsync();
+            return await _context.Cihaz1s.ToListAsync();    
         }
     }
 }

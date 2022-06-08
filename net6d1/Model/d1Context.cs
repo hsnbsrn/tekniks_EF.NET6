@@ -7,24 +7,25 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace net6d1.Model
 {
-    public partial class dContext : DbContext
+    public partial class d1Context : DbContext
     {
-        public dContext()
+        public d1Context()
         {
         }
 
-        public dContext(DbContextOptions<dContext> options)
+        public d1Context(DbContextOptions<d1Context> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Cihaz1> Cihaz1s { get; set; }
+        public virtual DbSet<Personel> Personels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cihaz1>(entity =>
             {
-                
+                entity.HasNoKey();
 
                 entity.ToView("cihaz1");
 
@@ -61,9 +62,15 @@ namespace net6d1.Model
                 entity.Property(e => e.Vtarih)
                     .HasColumnType("datetime")
                     .HasColumnName("VTarih");
+            });
 
-                entity.Property(e => e.Ucret);
+            modelBuilder.Entity<Personel>(entity =>
+            {
+                entity.ToTable("personel");
 
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AdSoyad).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

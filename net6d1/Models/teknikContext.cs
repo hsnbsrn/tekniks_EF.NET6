@@ -77,6 +77,8 @@ namespace net6d1.Models
                 entity.Property(e => e.TelNo).HasMaxLength(11);
 
                 entity.Property(e => e.Ucret);
+                
+                entity.Property(e => e.Persad).HasMaxLength(50);
 
                 entity.Property(e => e.Vtarih)
                     .HasColumnType("datetime")
@@ -91,6 +93,11 @@ namespace net6d1.Models
                     .WithMany(p => p.Mcihazs)
                     .HasForeignKey(d => d.Islem)
                     .HasConstraintName("FK_mcihaz_islem");
+                
+                entity.HasOne(d => d.PersonelNavigation)
+                    .WithMany(p => p.Mcihazs)
+                    .HasForeignKey(d => d.Personel)
+                    .HasConstraintName("FK_mcihaz_personel");
             });
 
             OnModelCreatingPartial(modelBuilder);

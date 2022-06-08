@@ -1,4 +1,5 @@
-﻿using System;
+﻿using net6d1.Model;
+using System;
 using System.Collections.Generic;
 
 namespace net6d1.Models
@@ -18,8 +19,11 @@ namespace net6d1.Models
         public int? Durum { get; set; }
         public string? Cihaz { get; set; }
         public int? Ucret { get; set; }
-
+        public int? Personel { get; set; }
+        public string? Persad { get; set; }
         public virtual Durum? DurumNavigation { get; set; }
         public virtual Islem? IslemNavigation { get; set; }
+        public virtual Personel? PersonelNavigation { get; set; }
+       
     }
 }
